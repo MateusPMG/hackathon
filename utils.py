@@ -169,3 +169,8 @@ def parse_test_cases(test_dict, test_cases_str):
         elif test_case.startswith("-"):
             if current_req:
                 test_dict[current_req].append(test_case.strip())
+
+
+def clear_session():
+    # Clear the session data
+    session.pop("responsep", None)

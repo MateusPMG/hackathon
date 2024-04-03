@@ -139,7 +139,8 @@ def get_developed_tests(previous_response: str, input_text: str) -> str:
         return completion.choices[0].message.content
     else:
         return "Error: No response received from Azure AI"
-    
+
+
 def parse_input(input_str: str):
     success_tests, failure_tests = {}, {}
 
@@ -155,6 +156,7 @@ def parse_input(input_str: str):
 
     return success_tests, failure_tests
 
+
 def parse_test_cases(test_dict, test_cases_str):
     current_req = None
     test_cases = [test.strip() for test in test_cases_str.split("\n") if test.strip()]
@@ -168,6 +170,7 @@ def parse_test_cases(test_dict, test_cases_str):
             if current_req:
                 test_dict[current_req].append(test_case.strip())
 
+
 def clear_session():
     # Clear the session data
-    session.pop('responsep', None)
+    session.pop("responsep", None)

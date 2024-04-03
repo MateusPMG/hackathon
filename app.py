@@ -1,5 +1,4 @@
 import os
-import re
 from utils import *
 from flask import Flask, render_template, request, session, redirect, url_for
 from openai import AzureOpenAI
@@ -27,33 +26,26 @@ def response():
     user_input = request.form["user_input"]
     response = get_azure_response(user_input)
     successT, failureT = parse_input(response)
-    responsep = {"successT" : successT, "failureT" : failureT }
-	print("Response Text:", responsep)  # Print the response text for debugging
-	session['responsep'] = {"successT" : successT, "failureT" : failureT}
+    responsep = {"successT": successT, "failureT": failureT}
+    session["responsep"] = {"successT": successT, "failureT": failureT}
     return render_template("middle.html", responsep=responsep)
+
 
 @app.route("/testCases", methods=["POST"])
 def middleResponse():
     pass
 
 
-# @app.route("/response", methods=["POST"])
-# def response():
-#     user_input = request.form["user_input"]
-#     response = get_azure_response(user_input)
-#     response_text = get_developed_tests(response)
+@app.route("/accept", methods=["POST"])
+def accept():
+    return render_template("index.html")
 
-#     # Attempt to parse the response
-#     parsed_response = parse_response(response_text)
 
-#     print("Parsed Response:", parsed_response)  # Add this line
-
-#     if parse_response:
-#         # Render the response template with extracted variables "
-#         return render_template("response.html", response=parsed_response)
-#     else:
-#         return render_template("response.html", response=None)
+@app.route("/clean")
+def clean():
+    # logica para limpiar la base de datos
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)

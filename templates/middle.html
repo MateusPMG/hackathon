@@ -1,98 +1,116 @@
-<!--
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>42 x Axians Hackaton</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="shortcut icon"
-      href="../static/images/depositphotos_647091904-stock-illustration-chat-bot-vector-icon-illustration.jpeg"
-      type="image/x-icon"
-    />
+    <title>Test Cases</title>
+    <link rel="stylesheet" href="../static/css/middle.css" />
   </head>
   <body>
-    <div style="white-space: pre-wrap">{{ response }}</div>
-    <form action="/testCases" method="POST">
-      <h2>Do you accept this test cases?</h2>
-      <button>Accept</button>
-      <button>Decline</button>
-    </form>
+    <div class="container">
+      <h2 id="success-title">Success Test Cases</h2>
+      <table class="test-cases">
+        <tr>
+          <th>Requirements</th>
+          <th>Tests</th>
+        </tr>
+        {% for req_id, test_case in responsep.successT.items() %}
+        <tr>
+          <td>{{ req_id }}</td>
+          <td>
+            <ul>
+              {% for test in test_case %}
+              <li>{{ test }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+
+      <h2 id="failure-title">Failure Test Cases</h2>
+      <table class="test-cases">
+        <tr>
+          <th>Requirements</th>
+          <th>Tests</th>
+        </tr>
+        {% for req_id, test_case in responsep.failureT.items() %}
+        <tr>
+          <td>{{ req_id }}</td>
+          <td>
+            <ul>
+              {% for test in test_case %}
+              <li>{{ test }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      <div id="myForm">
+        <form action="/accept" method="post">
+          <button class="button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+              ></path>
+            </svg>
+
+            <div class="text">Accept Test Cases</div>
+          </button>
+        </form>
+        <form action="/remake" method="post">
+          <button class="button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+              ></path>
+            </svg>
+
+            <div class="text">Remake Test Cases</div>
+          </button>
+        </form>
+        <form action="/clean" method="get">
+          <button class="button-exit">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+              ></path>
+            </svg>
+
+            <div class="text">Go Back to Homepage</div>
+          </button>
+        </form>
+      </div>
+    </div>
+    <footer id="footer"><p>Powered by 42 Lisboa Hackaton</p></footer>
+    <script src="../static/js/middleJs.js"></script>
   </body>
 </html>
--->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Cases</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h2 {
-            margin-bottom: 10px;
-        }
-        .test-case {
-            margin-bottom: 20px;
-        }
-        .test-case p {
-            margin: 5px 0;
-        }
-    </style>
-</head>
-<body>
-    <h1>Test Cases</h1>
-
-    <h2>Success Test Cases</h2>
-    <div id="success-tests"></div>
-
-    <h2>Failure Test Cases</h2>
-    <div id="failure-tests"></div>
-
-    <script>
-        const responsep = {{ responsep|tojson }};
-
-        const successT = responsep.successT;
-        const failureT = responsep.failureT;
-
-        // Function to display test cases
-        function displayTestCases(testCases, containerId) {
-            const container = document.getElementById(containerId);
-
-            Object.entries(testCases).forEach(([req_id, test_case]) => {
-                const testCaseDiv = document.createElement('div');
-                testCaseDiv.classList.add('test-case');
-
-                const reqNameParagraph = document.createElement('p');
-                reqNameParagraph.textContent = `Requirement ID & Name: ${test_case.requirname}`;
-                testCaseDiv.appendChild(reqNameParagraph);
-
-                const testsList = document.createElement('ul');
-                test_case.tests.forEach(test => {
-                    const testItem = document.createElement('li');
-                    testItem.textContent = test;
-                    testsList.appendChild(testItem);
-                });
-                testCaseDiv.appendChild(testsList);
-
-                container.appendChild(testCaseDiv);
-            });
-        }
-
-        // Display success and failure test cases
-        displayTestCases(successT, 'success-tests');
-        displayTestCases(failureT, 'failure-tests');
-    </script>
-</body>
-</html>
-

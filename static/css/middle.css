@@ -1,0 +1,123 @@
+*,
+*:after,
+*:before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+body {
+  background: url("../images/background.svg");
+  /* color: white; */
+}
+
+#myForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+
+.button {
+  background-color: #ffffff00;
+  color: #fff;
+  width: 13.5em;
+  height: 3em;
+  border: #3654ff 0.2em solid;
+  border-radius: 11px;
+  text-align: right;
+  transition: all 0.6s ease;
+}
+
+.button-exit {
+  background-color: #ffffff00;
+  color: #fff;
+  width: 15.5em;
+  height: 3em;
+  border: #3654ff 0.2em solid;
+  border-radius: 11px;
+  text-align: right;
+  transition: all 0.6s ease;
+}
+
+.button:hover,
+.button-exit:hover {
+  background-color: #3654ff;
+  cursor: pointer;
+}
+
+.button svg,
+.button-exit svg {
+  width: 1.6em;
+  margin: -0.2em 0.8em 1em;
+  position: absolute;
+  display: flex;
+  transition: all 0.6s ease;
+}
+
+.button:hover svg,
+.button-exit:hover svg {
+  transform: translateX(5px);
+}
+
+.text {
+  margin: 0 1.5em;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+.test-cases {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.test-cases th,
+.test-cases td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.test-cases th {
+  background-color: #f2f2f2;
+  color: #000;
+}
+
+.test-cases tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.test-cases tr:nth-child(odd) {
+  background-color: #0a0b0b;
+  color: white;
+}
+
+ul {
+  list-style-type: none;
+}
+
+#success-title {
+  color: green;
+}
+
+#failure-title {
+  color: red;
+}
+
+#footer {
+  width: 100%;
+  position: absolute;
+  bottom: 5px;
+  text-align: right;
+  padding-right: 20px;
+  color: white;
+}

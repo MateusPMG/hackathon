@@ -1,7 +1,7 @@
 import os
 import re
 from utils import *
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect, url_for
 from openai import AzureOpenAI
 from dotenv import load_dotenv
 
@@ -29,8 +29,9 @@ def response():
     response = get_azure_response(user_input)
     successT, failureT = parse_input(response)
     responsep = {"successT" : successT, "failureT" : failureT }
+	print("Response Text:", responsep)  # Print the response text for debugging
+	session['responsep'] = {"successT" : successT, "failureT" : failureT}
     return render_template("middle.html", responsep=responsep)
-
 
 @app.route("/testCases", methods=["POST"])
 def middleResponse():

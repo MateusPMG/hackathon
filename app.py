@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-
+app.secret_key = os.getenv("AZURE_OPENAI_KEY")
 # Initialize AzureOpenAI client
 client = AzureOpenAI(
     azure_endpoint=os.getenv("AZURE_ENDPOINT"),
@@ -35,6 +35,15 @@ def response():
 def middleResponse():
     pass
 
+@app.rout("/response", methods=["POST"])
+def response_page():
+    responsep = session.get('responsep')
+    if responsep is None:
+		clear_session()
+        return render_template("index.html")
+	
+	final = parse_response()
+    return render_template("response.html", finald=final)
 
 @app.route("/accept", methods=["POST"])
 def accept():

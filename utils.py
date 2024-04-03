@@ -24,56 +24,52 @@ it must also follow these directives:
 def parse_response(response_text):
     print("Response Text:", response_text)  # Print the response text for debugging
 
-    sections = {
-        "test_case": None,
-        "title": None,
-        "description": None,
-        "preconditions": None,
-        "requirements": None,
-        "actions": [],
-    }
+    test_cases = []
+    current_test_case = None
 
-    current_section = None
     lines = response_text.split("\n")
 
     for line in lines:
         line = line.strip()
         if line.lower().startswith("test case"):
-            current_section = "test_case"
-            sections["test_case"] = line.split(":", 1)[-1].strip()
-        elif line.lower().startswith("title"):
-            current_section = "title"
-            sections["title"] = line.split(":", 1)[-1].strip()
-        elif line.lower().startswith("description"):
-            current_section = "description"
-            sections["description"] = line.split(":", 1)[-1].strip()
-        elif line.lower().startswith("preconditions"):
-            current_section = "preconditions"
-            sections["preconditions"] = line.split(":", 1)[-1].strip()
-        elif line.lower().startswith("requirements"):
-            current_section = "requirements"
-            sections["requirements"] = line.split(":", 1)[-1].strip()
-        elif line.lower().startswith("actions"):
-            current_section = "actions"
-        elif current_section == "actions":
-            # Check if the line starts with a digit followed by a period
-            if re.match(r"^\d+\.\s", line):
+            current_test_case = {
+                "test_case": line.split(":", 1)[-1].strip(),
+                "title": None,
+                "description": None,
+                "preconditions": None,
+                "requirements": None,
+                "actions": [],
+            }
+            test_cases.append(current_test_case)
+        elif current_test_case:
+            if line.lower().startswith("title"):
+                current_test_case["title"] = line.split(":", 1)[-1].strip()
+            elif line.lower().startswith("description"):
+                current_test_case["description"] = line.split(":", 1)[-1].strip()
+            elif line.lower().startswith("preconditions"):
+                current_test_case["preconditions"] = line.split(":", 1)[-1].strip()
+            elif line.lower().startswith("requirements"):
+                current_test_case["requirements"] = line.split(":", 1)[-1].strip()
+            elif line.lower().startswith("actions"):
+                pass  # Skip, actions will be handled separately
+            elif re.match(r"^\d+\.\s", line):
                 action_step = line.strip()
                 expected_result = ""
-                sections["actions"].append(
+                current_test_case["actions"].append(
                     {"description": action_step, "expected_result": expected_result}
                 )
-            elif sections["actions"]:
+            elif current_test_case["actions"]:
                 # If not a new action, it's part of the expected result of the current action
-                sections["actions"][-1]["expected_result"] += line.strip() + " "
+                current_test_case["actions"][-1]["expected_result"] += line.strip() + " "
 
     # Remove the redundant "Expected Result:" string from the expected result
-    for action in sections["actions"]:
-        action["expected_result"] = (
-            action["expected_result"].replace("Expected Result:", "").strip()
-        )
+    for test_case in test_cases:
+        for action in test_case["actions"]:
+            action["expected_result"] = (
+                action["expected_result"].replace("Expected Result:", "").strip()
+            )
 
-    return sections
+    return test_cases
 
 
 def get_azure_response(input_text):

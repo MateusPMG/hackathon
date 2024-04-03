@@ -1,5 +1,4 @@
 import os
-import re
 from utils import *
 from flask import Flask, render_template, request
 from openai import AzureOpenAI

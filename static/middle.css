@@ -9,7 +9,7 @@
 
 body {
   background: url("./images/background.svg");
-  color: white;
+  /* color: white; */
 }
 
 button {
@@ -42,4 +42,47 @@ button:hover {
   100% {
     box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
   }
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+.test-cases {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.test-cases th,
+.test-cases td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.test-cases th {
+  background-color: #f2f2f2;
+}
+
+.test-cases tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#success-title {
+  color: green;
+}
+
+#failure-title {
+  color: red;
 }

@@ -30,69 +30,71 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Test Cases</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h2 {
-            margin-bottom: 10px;
-        }
-        .test-case {
-            margin-bottom: 20px;
-        }
-        .test-case p {
-            margin: 5px 0;
-        }
-    </style>
-</head>
-<body>
-    <h1>Test Cases</h1>
+    <link rel="stylesheet" href="../static/middle.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2 id="success-title">Success Test Cases</h2>
+      <table class="test-cases">
+        {% for test_case in responsep %}
+        <tr>
+          <th>Test Case</th>
+          <th>Steps</th>
+          {% endfor %}
+          <!-- <tr>
+          <th>Test Case</th>
+          <th>Steps</th>
+        </tr>
+        <tr>
+          <td>REQ-UCC08-010 Specify language</td>
+          <td>
+            <ul>
+              <li>
+                Select English from the language list and confirm the selection
+                is saved.
+              </li>
+              <li>
+                Select French from the language list and confirm the selection
+                is saved.
+              </li>
+              <li>
+                Select German from the language list and confirm the selection
+                is saved.
+              </li>
+            </ul>
+          </td>
+        </tr> -->
+          <!-- More rows for Success Test Cases -->
+        </tr>
+      </table>
 
-    <h2>Success Test Cases</h2>
-    <div id="success-tests"></div>
-
-    <h2>Failure Test Cases</h2>
-    <div id="failure-tests"></div>
-
-    <script>
-        const responsep = {{ responsep|tojson }};
-
-        const successT = responsep.successT;
-        const failureT = responsep.failureT;
-
-        // Function to display test cases
-        function displayTestCases(testCases, containerId) {
-            const container = document.getElementById(containerId);
-
-            Object.entries(testCases).forEach(([req_id, test_case]) => {
-                const testCaseDiv = document.createElement('div');
-                testCaseDiv.classList.add('test-case');
-
-                const reqNameParagraph = document.createElement('p');
-                reqNameParagraph.textContent = `Requirement ID & Name: ${test_case.requirname}`;
-                testCaseDiv.appendChild(reqNameParagraph);
-
-                const testsList = document.createElement('ul');
-                test_case.tests.forEach(test => {
-                    const testItem = document.createElement('li');
-                    testItem.textContent = test;
-                    testsList.appendChild(testItem);
-                });
-                testCaseDiv.appendChild(testsList);
-
-                container.appendChild(testCaseDiv);
-            });
-        }
-
-        // Display success and failure test cases
-        displayTestCases(successT, 'success-tests');
-        displayTestCases(failureT, 'failure-tests');
-    </script>
-</body>
+      <h2 id="failure-title">Failure Test Cases</h2>
+      <table class="test-cases">
+        <tr>
+          <th>Test Case</th>
+          <th>Steps</th>
+        </tr>
+        <tr>
+          <td>REQ-UCC08-010 Specify language</td>
+          <td>
+            <ul>
+              <li>
+                Attempt to select a language not in the 23 EU official languages
+                list and confirm the selection is not accepted.
+              </li>
+              <li>
+                Try to proceed without selecting a language and confirm the
+                system prompts for a language selection.
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <!-- More rows for Failure Test Cases -->
+      </table>
+    </div>
+  </body>
 </html>
-

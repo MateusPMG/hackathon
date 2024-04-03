@@ -35,14 +35,14 @@ def response():
 def middleResponse():
     pass
 
-@app.rout("/response", methods=["POST"])
+@app.route("/final", methods=["POST"])
 def response_page():
     responsep = session.get('responsep')
     if responsep is None:
-		clear_session()
+        clear_session()
         return render_template("index.html")
-	
-	final = parse_response()
+    testsall = get_developed_tests(responsep)
+    final = parse_response(testsall)
     return render_template("response.html", finald=final)
 
 @app.route("/accept", methods=["POST"])

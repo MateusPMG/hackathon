@@ -99,14 +99,9 @@ def get_azure_response(input_text):
         return "Error: No response received from Azure AI"
 
 
-def get_developed_tests(previous_response: str, input_text: str) -> str:
+def get_developed_tests(previous_response: str) -> str:
     messages = [
         {"role": "system", "content": systemmessage},
-        {
-            "role": "assistant",
-            "content": "Of course! Please provide me with the user story, and I'll generate possible test cases for both success and failure scenarios.",
-        },
-        {"role": "user", "content": input_text},
         {"role": "assistant", "content": previous_response},
         {
             "role": "user",

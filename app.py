@@ -25,8 +25,9 @@ def index():
 def response():
     user_input = request.form["user_input"]
     response = get_azure_response(user_input)
-
-    return render_template("middle.html", response=response)
+    successT, failureT = parseinput(response)
+    responsep = {"successT" : successT, "failureT" : failureT }
+    return render_template("middle.html", responsep=responsep)
 
 
 @app.route("/testCases", methods=["POST"])

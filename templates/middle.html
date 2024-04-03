@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -25,3 +26,73 @@
     </form>
   </body>
 </html>
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Cases</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+        .test-case {
+            margin-bottom: 20px;
+        }
+        .test-case p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Cases</h1>
+
+    <h2>Success Test Cases</h2>
+    <div id="success-tests"></div>
+
+    <h2>Failure Test Cases</h2>
+    <div id="failure-tests"></div>
+
+    <script>
+        const responsep = {{ responsep|tojson }};
+
+        const successT = responsep.successT;
+        const failureT = responsep.failureT;
+
+        // Function to display test cases
+        function displayTestCases(testCases, containerId) {
+            const container = document.getElementById(containerId);
+
+            Object.entries(testCases).forEach(([req_id, test_case]) => {
+                const testCaseDiv = document.createElement('div');
+                testCaseDiv.classList.add('test-case');
+
+                const reqNameParagraph = document.createElement('p');
+                reqNameParagraph.textContent = `Requirement ID & Name: ${test_case.requirname}`;
+                testCaseDiv.appendChild(reqNameParagraph);
+
+                const testsList = document.createElement('ul');
+                test_case.tests.forEach(test => {
+                    const testItem = document.createElement('li');
+                    testItem.textContent = test;
+                    testsList.appendChild(testItem);
+                });
+                testCaseDiv.appendChild(testsList);
+
+                container.appendChild(testCaseDiv);
+            });
+        }
+
+        // Display success and failure test cases
+        displayTestCases(successT, 'success-tests');
+        displayTestCases(failureT, 'failure-tests');
+    </script>
+</body>
+</html>
+

@@ -1,15 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Webpage</title>
-</head>
-<body>
-    <form action="/response" method="post">
-        <label for="user_input">Enter your text:</label><br>
-        <input type="text" id="user_input" name="user_input"><br><br>
-        <input type="submit" value="Send">
-    </form>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>42 x Axians Hackaton</title>
+    <link rel="stylesheet" href="../static/home.css" />
+    <link
+      rel="shortcut icon"
+      href="../static/images/depositphotos_647091904-stock-illustration-chat-bot-vector-icon-illustration.jpeg"
+      type="image/x-icon"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="main">
+      <h1 id="company-names">42 Lisboa x Axians</h1>
+      <h2 id="hackaton">Hackaton</h2>
+      <form action="/response" method="post" id="form">
+        <label for="user_input">User Story</label><br />
+        <textarea
+          type="text"
+          id="user_input"
+          name="user_input"
+          placeholder="Insert a user story..."
+        ></textarea
+        ><br />
+        <button> Request Tests </button>
+      </form>
+    </div>
+  </body>
 </html>

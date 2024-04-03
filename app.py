@@ -1,9 +1,8 @@
 import os
-import re
 from utils import *
-from flask import Flask, render_template, request
 from openai import AzureOpenAI
 from dotenv import load_dotenv
+from flask import Flask, render_template, request
 
 load_dotenv()
 
@@ -15,7 +14,6 @@ client = AzureOpenAI(
     api_key=os.getenv("AZURE_OPENAI_KEY"),
     api_version=os.getenv("API_VERSION"),
 )
-
 
 
 @app.route("/")
@@ -55,4 +53,4 @@ def middleResponse():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0")

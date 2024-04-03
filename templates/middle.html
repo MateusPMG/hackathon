@@ -15,13 +15,16 @@
       href="../static/images/depositphotos_647091904-stock-illustration-chat-bot-vector-icon-illustration.jpeg"
       type="image/x-icon"
     />
+    <link rel="stylesheet" href="../static/css/middle.css">
   </head>
   <body>
     <div style="white-space: pre-wrap">{{ response }}</div>
     <form action="/testCases" method="POST">
       <h2>Do you accept this test cases?</h2>
       <button>Accept</button>
-      <button>Decline</button>
+      <button>Remake</button>
+      <button id="exitButton">Home</button>
     </form>
+    <script src="../static/js/middleJs.js"></script>
   </body>
 </html>

@@ -2,6 +2,7 @@ from app import client
 from dotenv import load_dotenv
 import os
 import re
+from flask import session
 
 systemmessage = """
 You are a QA expert.

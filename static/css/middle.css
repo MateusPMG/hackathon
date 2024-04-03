@@ -8,50 +8,54 @@
 }
 
 body {
-<<<<<<< HEAD:static/middle.css
-  background: url("./images/background.svg");
-  /* color: white; */
-=======
   background: url("../images/background.svg");
-  color: white;
->>>>>>> aa998cef5735c7a9b7b7a93ae6878a431eb98974:static/css/middle.css
+  /* color: white; */
 }
 
-button {
-  border: none;
+.button {
+  background-color: #ffffff00;
   color: #fff;
-  background-image: linear-gradient(30deg, #0400ff, #4ce3f7);
-  border-radius: 20px;
-  background-size: 100% auto;
-  font-family: inherit;
-  font-size: 17px;
-  padding: 0.6em 1.5em;
+  width: 13.5em;
+  height: 3em;
+  border: #3654ff 0.2em solid;
+  border-radius: 11px;
+  text-align: right;
+  transition: all 0.6s ease;
 }
 
-button:hover {
-  background-position: right center;
-  background-size: 200% auto;
-  -webkit-animation: pulse 2s infinite;
-  animation: pulse512 1.5s infinite;
+.button-exit {
+  background-color: #ffffff00;
+  color: #fff;
+  width: 15.5em;
+  height: 3em;
+  border: #3654ff 0.2em solid;
+  border-radius: 11px;
+  text-align: right;
+  transition: all 0.6s ease;
 }
 
-@keyframes pulse512 {
-  0% {
-    box-shadow: 0 0 0 0 #05bada66;
-  }
-
-  70% {
-    box-shadow: 0 0 0 10px rgb(218 103 68 / 0%);
-  }
-
-  100% {
-    box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
-  }
+.button:hover,
+.button-exit:hover {
+  background-color: #3654ff;
+  cursor: pointer;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
+.button svg,
+.button-exit svg {
+  width: 1.6em;
+  margin: -0.2em 0.8em 1em;
+  position: absolute;
+  display: flex;
+  transition: all 0.6s ease;
+}
+
+.button:hover svg,
+.button-exit:hover svg {
+  transform: translateX(5px);
+}
+
+.text {
+  margin: 0 1.5em;
 }
 
 .container {
@@ -78,10 +82,16 @@ h2 {
 
 .test-cases th {
   background-color: #f2f2f2;
+  color: #000;
 }
 
 .test-cases tr:nth-child(even) {
   background-color: #f2f2f2;
+}
+
+.test-cases tr:nth-child(odd) {
+  background-color: #0a0b0b;
+  color: white;
 }
 
 #success-title {
@@ -90,4 +100,13 @@ h2 {
 
 #failure-title {
   color: red;
+}
+
+#footer {
+  width: 100%;
+  position: absolute;
+  bottom: 5px;
+  text-align: right;
+  padding-right: 20px;
+  color: white;
 }

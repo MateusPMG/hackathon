@@ -1,6 +1,7 @@
 from app import client
 from dotenv import load_dotenv
 import os
+import re
 
 systemmessage = """
 You are a QA expert.
@@ -138,7 +139,8 @@ def get_developed_tests(previous_response: str, input_text: str) -> str:
         return completion.choices[0].message.content
     else:
         return "Error: No response received from Azure AI"
-    
+
+
 def parseinput(input: str):
     successT, failureT = {}, {}
     print("Input str:", input)
@@ -151,7 +153,9 @@ def parseinput(input: str):
 
     # Check if success_tests contains the delimiter
     if "# Success Test Cases" not in success_tests:
-        print("Error: Input string does not contain the delimiter for success test cases.")
+        print(
+            "Error: Input string does not contain the delimiter for success test cases."
+        )
         return {}, {}
 
     # Parse success test cases
@@ -173,4 +177,3 @@ def parseinput(input: str):
         failureT[req_id] = {"requirname": req_id_name, "tests": tests}
 
     return successT, failureT
-

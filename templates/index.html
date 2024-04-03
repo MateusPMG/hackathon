@@ -19,8 +19,8 @@
   </head>
   <body>
     <div id="main">
-      <h1 id="company-names">Axians QA Assistant</h1> 
-      <form action="/response" method="post" id="form">
+      <h1 id="company-names">Axians QA Assistant</h1>
+      <form id="form">
         <label for="user_input" id="label">User Story</label><br />
         <textarea
           type="text"
@@ -29,9 +29,27 @@
           placeholder="Insert a user story..."
         ></textarea
         ><br />
-        <button> Request Tests </button>
+        <button class="button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+            ></path>
+          </svg>
+
+          <div class="text">Request Test Cases</div>
+        </button>
       </form>
     </div>
     <footer id="footer"><p>Powered by 42 Lisboa Hackaton</p></footer>
+    <script src="../static/js/home.js"></script>
   </body>
 </html>

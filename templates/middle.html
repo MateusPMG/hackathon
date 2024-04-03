@@ -1,103 +1,110 @@
-<!--
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>42 x Axians Hackaton</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="shortcut icon"
-      href="../static/images/depositphotos_647091904-stock-illustration-chat-bot-vector-icon-illustration.jpeg"
-      type="image/x-icon"
-    />
-    <link rel="stylesheet" href="../static/css/middle.css">
-  </head>
-  <body>
-    <div style="white-space: pre-wrap">{{ response }}</div>
-    <form action="/testCases" method="POST">
-      <h2>Do you accept this test cases?</h2>
-      <button>Accept</button>
-      <button>Remake</button>
-      <button id="exitButton">Home</button>
-    </form>
-    <script src="../static/js/middleJs.js"></script>
-  </body>
-</html>
--->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Test Cases</title>
-    <link rel="stylesheet" href="../static/middle.css" />
+    <link rel="stylesheet" href="../static/css/middle.css" />
   </head>
   <body>
     <div class="container">
       <h2 id="success-title">Success Test Cases</h2>
       <table class="test-cases">
-        {% for test_case in responsep %}
         <tr>
-          <th>Test Case</th>
-          <th>Steps</th>
-          {% endfor %}
-          <!-- <tr>
-          <th>Test Case</th>
-          <th>Steps</th>
+          <th>Requirements</th>
+          <th>Tests</th>
         </tr>
+        {% for req_id, test_case in responsep.successT.items() %}
         <tr>
-          <td>REQ-UCC08-010 Specify language</td>
+          <td>{{ test_case.requirname }}</td>
           <td>
             <ul>
-              <li>
-                Select English from the language list and confirm the selection
-                is saved.
-              </li>
-              <li>
-                Select French from the language list and confirm the selection
-                is saved.
-              </li>
-              <li>
-                Select German from the language list and confirm the selection
-                is saved.
-              </li>
+              {% for test in test_case.tests %}
+              <li>{{ test }}</li>
+              {% endfor %}
             </ul>
           </td>
-        </tr> -->
-          <!-- More rows for Success Test Cases -->
         </tr>
+        {% endfor %}
       </table>
 
       <h2 id="failure-title">Failure Test Cases</h2>
       <table class="test-cases">
         <tr>
-          <th>Test Case</th>
-          <th>Steps</th>
+          <th>Requirements</th>
+          <th>Tests</th>
         </tr>
+        {% for req_id, test_case in responsep.failureT.items() %}
         <tr>
-          <td>REQ-UCC08-010 Specify language</td>
+          <td>{{ test_case.requirname }}</td>
           <td>
             <ul>
-              <li>
-                Attempt to select a language not in the 23 EU official languages
-                list and confirm the selection is not accepted.
-              </li>
-              <li>
-                Try to proceed without selecting a language and confirm the
-                system prompts for a language selection.
-              </li>
+              {% for test in test_case.tests %}
+              <li>{{ test }}</li>
+              {% endfor %}
             </ul>
           </td>
         </tr>
-        <!-- More rows for Failure Test Cases -->
+        {% endfor %}
       </table>
+      <form>
+        <button class="button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+            ></path>
+          </svg>
+
+          <div class="text">Accept Test Cases</div>
+        </button>
+        <button class="button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+            ></path>
+          </svg>
+
+          <div class="text">Remake Test Cases</div>
+        </button>
+        <button class="button-exit">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+            ></path>
+          </svg>
+
+          <div class="text">Go Back to Homepage</div>
+        </button>
+      </form>
     </div>
+    <footer id="footer"><p>Powered by 42 Lisboa Hackaton</p></footer>
+    <script src="../static/js/middleJs.js"></script>
   </body>
 </html>

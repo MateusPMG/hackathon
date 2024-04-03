@@ -27,7 +27,7 @@ def index():
 def response():
     user_input = request.form["user_input"]
     response = get_azure_response(user_input)
-    successT, failureT = parseinput(response)
+    successT, failureT = parse_input(response)
     responsep = {"successT" : successT, "failureT" : failureT }
     return render_template("middle.html", responsep=responsep)
 

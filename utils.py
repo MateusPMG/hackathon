@@ -1,6 +1,7 @@
 from app import client
 from dotenv import load_dotenv
 import os
+import re
 
 systemmessage = """
 You are a QA expert.
@@ -139,38 +140,39 @@ def get_developed_tests(previous_response: str, input_text: str) -> str:
     else:
         return "Error: No response received from Azure AI"
     
-def parseinput(input: str):
-    successT, failureT = {}, {}
-    print("Input str:", input)
-    # Split input into success and failure test cases
-    try:
-        success_tests, failure_tests = input.split("# Failure Test Cases")
-    except ValueError:
-        print("Error: Input string does not contain the expected delimiter.")
-        return {}, {}
+def parse_input(input_str: str):
+    success_tests, failure_tests = {}, {}
 
-    # Check if success_tests contains the delimiter
-    if "# Success Test Cases" not in success_tests:
-        print("Error: Input string does not contain the delimiter for success test cases.")
-        return {}, {}
+    sections = input_str.split("#")
 
-    # Parse success test cases
-    success_cases = success_tests.split("# Success Test Cases")[1].strip()
-    success_tests = success_cases.split("* ")
-    for test_case in success_tests[1:]:
-        req_id_name, tests = test_case.split("\n  - ", 1)
-        req_id, req_name = req_id_name.split(maxsplit=1)
-        tests = [test.strip() for test in tests.split("\n  - ")]
-        successT[req_id] = {"requirname": req_id_name, "tests": tests}
+    for section in sections:
+        if "Success Test Cases" in section:
+            success_cases = section.split("Success Test Cases")[1].strip()
+            parse_test_cases(success_tests, success_cases)
+        elif "Failure Test Cases" in section:
+            failure_cases = section.split("Failure Test Cases")[1].strip()
+            parse_test_cases(failure_tests, failure_cases)
+    print("Success Test Cases:")
+    print(success_tests)
+    print("\nFailure Test Cases:")
+    print(failure_tests)
+    return success_tests, failure_tests
 
-    # Parse failure test cases
-    failure_cases = failure_tests.strip()
-    failure_tests = failure_cases.split("* ")
-    for test_case in failure_tests[1:]:
-        req_id_name, tests = test_case.split("\n  - ", 1)
-        req_id, req_name = req_id_name.split(maxsplit=1)
-        tests = [test.strip() for test in tests.split("\n  - ")]
-        failureT[req_id] = {"requirname": req_id_name, "tests": tests}
+def parse_test_cases(test_dict, test_cases_str):
+    current_req = None
+    test_cases = [test.strip() for test in test_cases_str.split("\n") if test.strip()]
 
-    return successT, failureT
+    for test_case in test_cases:
+        if test_case.startswith("*"):
+            req_id_name = test_case.split("*")[1].strip()
+            current_req = req_id_name
+            test_dict[current_req] = []
+        elif test_case.startswith("-"):
+            if current_req:
+                test_dict[current_req].append(test_case.strip())
+    
+ 
+ 
+    
+    
 

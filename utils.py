@@ -153,10 +153,7 @@ def parse_input(input_str: str):
         elif "Failure Test Cases" in section:
             failure_cases = section.split("Failure Test Cases")[1].strip()
             parse_test_cases(failure_tests, failure_cases)
-    print("Success Test Cases:")
-    print(success_tests)
-    print("\nFailure Test Cases:")
-    print(failure_tests)
+
     return success_tests, failure_tests
 
 

@@ -27,7 +27,7 @@ def response():
     response = get_azure_response(user_input)
     successT, failureT = parse_input(response)
     responsep = {"successT": successT, "failureT": failureT}
-    session["responsep"] = {"successT": successT, "failureT": failureT}
+    # session["responsep"] = {"successT": successT, "failureT": failureT}
     return render_template("middle.html", responsep=responsep)
 
 

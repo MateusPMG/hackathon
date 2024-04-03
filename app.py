@@ -2,7 +2,6 @@ import os
 from flask import Flask, render_template, request
 from openai import AzureOpenAI
 from dotenv import load_dotenv
-import re
 
 load_dotenv()
 
@@ -39,48 +38,53 @@ import re
 
 def parse_response(response_text):
     print("Response Text:", response_text)  # Print the response text for debugging
-    
-    # Define patterns for each section of the test case
-    test_case_pattern = r"(?:Test Case ID:|A test case:|Test Case)?\s*(.*?)\n?Title: (.*?)\n?Description: (.*?)\n?Preconditions: (.*?)\n?Requirements: (.*?)\n?Actions:\n?(.*?)(?=\n\n|$)"
 
-    # Use the combined pattern to search for matches in the response text
-    match = re.search(test_case_pattern, response_text, re.DOTALL)
-    print("Match:", match)  # Print the match object for debugging
-    
-    if match:
-        # Extract the matched groups for each section
-        test_case = match.group(1).strip()
-        title = match.group(2).strip()
-        description = match.group(3).strip()
-        preconditions = match.group(4).strip()
-        requirements = match.group(5).strip()
-        actions_text = match.group(6).strip()
+    sections = {
+        "test_case": None,
+        "title": None,
+        "description": None,
+        "preconditions": None,
+        "requirements": None,
+        "actions": []
+    }
 
-        print("Test Case:", test_case)  # Print the test case ID for debugging
-        print("Title:", title)  # Print the title for debugging
-        print("Description:", description)  # Print the description for debugging
-        print("Preconditions:", preconditions)  # Print the preconditions for debugging
-        print("Requirements:", requirements)  # Print the requirements for debugging
-        print("Actions Text:", actions_text)  # Print the actions text for debugging
+    current_section = None
+    lines = response_text.split('\n')
 
-        # Split actions_text into individual actions and expected results
-        actions_matches = re.findall(r"(\d+\.\s.*?)\n\s*- Expected result:\s*(.*?)(?=\d+\.\s|\Z)", actions_text, re.DOTALL)
-        print("Actions Matches:", actions_matches)  # Print the actions matches for debugging
-        
-        actions = [{"description": action[0].strip(), "expected_result": action[1].strip() if action[1] else ""} for action in actions_matches]
-        print("Actions:", actions)  # Print the parsed actions for debugging
+    for line in lines:
+        line = line.strip()
+        if line.lower().startswith("test case"):
+            current_section = "test_case"
+            sections["test_case"] = line.split(":", 1)[-1].strip()
+        elif line.lower().startswith("title"):
+            current_section = "title"
+            sections["title"] = line.split(":", 1)[-1].strip()
+        elif line.lower().startswith("description"):
+            current_section = "description"
+            sections["description"] = line.split(":", 1)[-1].strip()
+        elif line.lower().startswith("preconditions"):
+            current_section = "preconditions"
+            sections["preconditions"] = line.split(":", 1)[-1].strip()
+        elif line.lower().startswith("requirements"):
+            current_section = "requirements"
+            sections["requirements"] = line.split(":", 1)[-1].strip()
+        elif line.lower().startswith("actions"):
+            current_section = "actions"
+        elif current_section == "actions":
+            # Check if the line starts with a digit followed by a period
+            if re.match(r"^\d+\.\s", line):
+                action_step = line.strip()
+                expected_result = ""
+                sections["actions"].append({"description": action_step, "expected_result": expected_result})
+            elif sections["actions"]:
+                # If not a new action, it's part of the expected result of the current action
+                sections["actions"][-1]["expected_result"] += line.strip() + " "
 
-        return {
-            "test_case": test_case,
-            "title": title,
-            "description": description,
-            "preconditions": preconditions,
-            "requirements": requirements,
-            "actions": actions
-        }
-    else:
-        print("No match found for response text:", response_text)  # Print if no match found for debugging
-        return None
+    # Remove the redundant "Expected Result:" string from the expected result
+    for action in sections["actions"]:
+        action["expected_result"] = action["expected_result"].replace("Expected Result:", "").strip()
+
+    return sections
 
 def get_azure_response(input_text):
     message_text = [{"role": "system", "content": systemmessage},
@@ -107,12 +111,12 @@ You are a QA expert.
 You generate a single appropriate test case you can for a given user story.
 You musnt use #, ##, ###, or #### in the test case.
 A test case must only have the following sections in the following order:
-- A test case, section with a appropriately generated test case code.
+- A section named "test case" with a appropriately generated test case code.
 - A title section with a name for the current test case.
 - A description section with a short summary of what the test describes and what it tests.
 - A preconditions section with the preconditions necessary for this test case.
 - A Requirements section with the code name of the requirement being tested, there must be only one per test case.
-- A Actions section with as many steps as possible to perform the test and for each step the expected result.
+- A Actions section with as many numbered steps as possible to perform the test and for each step the expected result.
 """
 
 if __name__ == '__main__':

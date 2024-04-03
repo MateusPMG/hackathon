@@ -8,10 +8,14 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f0f0f0;
         }
         .response {
             border: 1px solid #ccc;
-            padding: 10px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
         .response p, .response li {
@@ -20,25 +24,70 @@
         .response strong {
             font-weight: bold;
         }
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333; /* Dark gray color for section titles */
+        }
+        .section-content {
+            font-size: 16px;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .action {
+            flex: 0 0 calc(50% - 40px);
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            max-width: calc(50% - 20px); /* New property to limit the width */
+        }
+        .action-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333; /* Dark gray color for action titles */
+        }
+        .action-content {
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
     {% if response.test_case %}
     <div class="response">
-        <p><strong>Test Case:</strong> {{ response.test_case }}</p>
-        <p><strong>Title:</strong> {{ response.title }}</p>
-        <p><strong>Description:</strong> {{ response.description }}</p>
-        <p><strong>Preconditions:</strong> {{ response.preconditions }}</p>
-        <p><strong>Requirements:</strong> {{ response.requirements }}</p>
-        <p><strong>Actions:</strong></p>
-        <ol>
-            {% for action in response.actions %}
-                <li>
-                    {{ action.description }}
-                    <br><strong>Expected Result:</strong> {{ action.expected_result }}
-                </li>
-            {% endfor %}
-        </ol>
+        <p class="section-title"><strong>Test Case:</strong></p>
+        <p class="section-content">{{ response.test_case }}</p>
+        <p class="section-title"><strong>Title:</strong></p>
+        <p class="section-content">{{ response.title }}</p>
+        <p class="section-title"><strong>Description:</strong></p>
+        <p class="section-content">{{ response.description }}</p>
+        <p class="section-title"><strong>Preconditions:</strong></p>
+        <p class="section-content">{{ response.preconditions }}</p>
+        <p class="section-title"><strong>Requirements:</strong></p>
+        <p class="section-content">{{ response.requirements }}</p>
+        <div class="actions">
+            <div class="action">
+                <p class="action-title">Actions:</p>
+            </div>
+            <div class="action">
+                <p class="action-title">Expected Results:</p>
+            </div>
+        </div>
+        {% for action in response.actions %}
+        <div class="actions">
+            <div class="action">
+                <p class="action-content">{{ action.description }}</p>
+            </div>
+            <div class="action">
+                <p class="action-content">{{ action.expected_result }}</p>
+            </div>
+        </div>
+        {% endfor %}
     </div>
     {% else %}
     <p>No response available.</p>

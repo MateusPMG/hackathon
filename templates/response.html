@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Case Response</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .response {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .response p, .response li {
+            margin-bottom: 10px;
+        }
+        .response strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    {% if response.test_case %}
+    <div class="response">
+        <p><strong>Test Case:</strong> {{ response.test_case }}</p>
+        <p><strong>Title:</strong> {{ response.title }}</p>
+        <p><strong>Description:</strong> {{ response.description }}</p>
+        <p><strong>Preconditions:</strong> {{ response.preconditions }}</p>
+        <p><strong>Requirements:</strong> {{ response.requirements }}</p>
+        <p><strong>Actions:</strong></p>
+        <ol>
+            {% for action in response.actions %}
+                <li>
+                    {{ action.description }}
+                    <br><strong>Expected Result:</strong> {{ action.expected_result }}
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+    {% else %}
+    <p>No response available.</p>
+    {% endif %}
+</body>
+</html>

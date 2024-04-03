@@ -16,10 +16,10 @@
         </tr>
         {% for req_id, test_case in responsep.successT.items() %}
         <tr>
-          <td>{{ test_case.requirname }}</td>
+          <td>{{ req_id }}</td>
           <td>
             <ul>
-              {% for test in test_case.tests %}
+              {% for test in test_case %}
               <li>{{ test }}</li>
               {% endfor %}
             </ul>
@@ -36,10 +36,10 @@
         </tr>
         {% for req_id, test_case in responsep.failureT.items() %}
         <tr>
-          <td>{{ test_case.requirname }}</td>
+          <td>{{ req_id }}</td>
           <td>
             <ul>
-              {% for test in test_case.tests %}
+              {% for test in test_case %}
               <li>{{ test }}</li>
               {% endfor %}
             </ul>
@@ -47,62 +47,68 @@
         </tr>
         {% endfor %}
       </table>
-      <form>
-        <button class="button">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
-            ></path>
-          </svg>
+      <div id="myForm">
+        <form action="/accept" method="post">
+          <button class="button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+              ></path>
+            </svg>
 
-          <div class="text">Accept Test Cases</div>
-        </button>
-        <button class="button">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
-            ></path>
-          </svg>
+            <div class="text">Accept Test Cases</div>
+          </button>
+        </form>
+        <form action="/remake" method="post">
+          <button class="button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+              ></path>
+            </svg>
 
-          <div class="text">Remake Test Cases</div>
-        </button>
-        <button class="button-exit">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
-            ></path>
-          </svg>
+            <div class="text">Remake Test Cases</div>
+          </button>
+        </form>
+        <form action="/clean" method="get">
+          <button class="button-exit">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+              ></path>
+            </svg>
 
-          <div class="text">Go Back to Homepage</div>
-        </button>
-      </form>
+            <div class="text">Go Back to Homepage</div>
+          </button>
+        </form>
+      </div>
     </div>
     <footer id="footer"><p>Powered by 42 Lisboa Hackaton</p></footer>
     <script src="../static/js/middleJs.js"></script>

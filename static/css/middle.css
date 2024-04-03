@@ -12,6 +12,13 @@ body {
   /* color: white; */
 }
 
+#myForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+
 .button {
   background-color: #ffffff00;
   color: #fff;
@@ -92,6 +99,10 @@ h2 {
 .test-cases tr:nth-child(odd) {
   background-color: #0a0b0b;
   color: white;
+}
+
+ul {
+  list-style-type: none;
 }
 
 #success-title {

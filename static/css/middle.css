@@ -8,8 +8,13 @@
 }
 
 body {
+<<<<<<< HEAD:static/middle.css
   background: url("./images/background.svg");
   /* color: white; */
+=======
+  background: url("../images/background.svg");
+  color: white;
+>>>>>>> aa998cef5735c7a9b7b7a93ae6878a431eb98974:static/css/middle.css
 }
 
 button {

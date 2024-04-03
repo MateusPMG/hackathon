@@ -8,13 +8,13 @@
 }
 
 body {
-    background: url("./images/background.svg");
+    background: url("../images/background.svg");
     color: white;
     /* border: 1px solid red; */
 }
 
 #main {
-    height: 100vh;
+    height: 95vh;
     width: 100vw;
     display: flex;
     flex-direction: column;
@@ -25,11 +25,6 @@ body {
 #company-names {
     font-family: "Permanent Marker", cursive;
     font-size: 4rem;
-    padding-bottom: 1rem;
-}
-
-#hackaton {
-    font-family: "Permanent Marker", cursive;
     padding-bottom: 4rem;
 }
 
@@ -39,6 +34,10 @@ body {
     align-items: center;
     flex-direction: column;
     /* font-family: "Permanent Marker", cursive; */
+}
+
+#label {
+    font-size: 2rem;
 }
 
 #user_input {
@@ -93,4 +92,12 @@ body {
     100% {
      box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
     }
+   }
+
+   #footer {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    justify-self: end;
+    padding-right: 20px;
    }

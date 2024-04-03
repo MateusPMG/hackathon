@@ -70,10 +70,14 @@
     </style>
   </head>
   <body>
-    {% if response.test_case %}
-    <div class="response">
-      <p class="section-title"><strong>Test Case:</strong></p>
-      <p class="section-content">{{ response.test_case }}</p>
+    {% if response %}
+  <div style="white-space: pre-wrap;">
+    {{response}}
+    <!--  
+      {% if response.test_case %}
+      <div class="response">
+        <p class="section-title"><strong>Test Case:</strong></p>
+        <p class="section-content">{{ response.test_case }}</p>
       <p class="section-title"><strong>Title:</strong></p>
       <p class="section-content">{{ response.title }}</p>
       <p class="section-title"><strong>Description:</strong></p>
@@ -99,7 +103,7 @@
           <p class="action-content">{{ action.expected_result }}</p>
         </div>
       </div>
-      {% endfor %}
+      {% endfor %} -->
     </div>
     {% else %}
     <p>No response available.</p>

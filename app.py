@@ -43,9 +43,9 @@ def response_page():
         clear_session()
         return render_template("index.html")
     testsall = get_developed_tests(responsep)
-    final = parse_response(testsall)
+    #final = parse_response(testsall)
 
-    return render_template("response.html", finald=final)
+    return render_template("response.html", finald=testsall)
 
 @app.route("/accept", methods=["POST"])
 def accept():

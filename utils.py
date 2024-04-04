@@ -22,30 +22,35 @@ it must also follow these directives:
 
 import re
 
+
 def trim_input(input_text):
     # Split the input text into lines
-    lines = input_text.split('\n')
+    lines = input_text.split("\n")
 
     # Define a regex pattern to match '#', '*', and spaces at the beginning of each line
-    pattern = r'^[\s*#]+'
+    pattern = r"^[\s*#]+"
 
     # Iterate through each line and apply the regex pattern to trim unwanted characters
-    trimmed_lines = [re.sub(pattern, '', line) for line in lines]
+    trimmed_lines = [re.sub(pattern, "", line) for line in lines]
 
     # Join the trimmed lines back together to form the modified input text
-    trimmed_input_text = '\n'.join(trimmed_lines)
+    trimmed_input_text = "\n".join(trimmed_lines)
 
     return trimmed_input_text
 
+
 import re
 
 import re
+
 
 def parse_response(response_text):
     test_cases = []
     print(response_text)
     # Split response text into individual test case blocks
-    test_case_blocks = re.split(r'(?m)^(?:.*?Test Case:\s*|## Test Case:)\s*', response_text.strip())
+    test_case_blocks = re.split(
+        r"(?m)^(?:.*?Test Case:\s*|## Test Case:)\s*", response_text.strip()
+    )
     for block in test_case_blocks:
         if not block.strip():
             continue
@@ -53,45 +58,54 @@ def parse_response(response_text):
         test_case = {}
 
         # Extract test case ID
-        match_test_case = re.search(r'^[#\*]+\s*Test\s*Case\s*(\d+)', block)
+        match_test_case = re.search(r"^[#\*]+\s*Test\s*Case\s*(\d+)", block)
         if match_test_case:
-            test_case['test_case'] = match_test_case.group(1).strip()
+            test_case["test_case"] = match_test_case.group(1).strip()
 
         # Extract test case details
-        match_title = re.search(r'[#\*]+\s*Title:\s*(.+?)\n', block)
+        match_title = re.search(r"[#\*]+\s*Title:\s*(.+?)\n", block)
         if match_title:
-            test_case['title'] = match_title.group(1).strip()
+            test_case["title"] = match_title.group(1).strip()
 
-        match_description = re.search(r'(?:#+\s*)?Description\s*(?::|\*\*)\s*(.+)', block)
+        match_description = re.search(
+            r"(?:#+\s*)?Description\s*(?::|\*\*)\s*(.+)", block
+        )
         if match_description:
-            test_case['description'] = match_description.group(1).strip()
+            test_case["description"] = match_description.group(1).strip()
 
-        match_preconditions = re.search(r'\*\*Preconditions:\*\*\s*(.+)', block)
+        match_preconditions = re.search(r"\*\*Preconditions:\*\*\s*(.+)", block)
         if match_preconditions:
-            test_case['preconditions'] = match_preconditions.group(1).strip()
+            test_case["preconditions"] = match_preconditions.group(1).strip()
 
-        match_requirements = re.search(r'\*\*Requirements:\*\*\s*(.+)', block)
+        match_requirements = re.search(r"\*\*Requirements:\*\*\s*(.+)", block)
         if match_requirements:
-            test_case['requirements'] = match_requirements.group(1).strip()
+            test_case["requirements"] = match_requirements.group(1).strip()
 
         # Extract actions
         actions = []
-        action_matches = re.finditer(r'\*\*Actions:\s*\n((?:\d+|\*)\.\s*(?:.+?)\n\s*-\s*Expected Result:\s*(?:.+)(?:\n|$))+', block, re.DOTALL)
+        action_matches = re.finditer(
+            r"\*\*Actions:\s*\n((?:\d+|\*)\.\s*(?:.+?)\n\s*-\s*Expected Result:\s*(?:.+)(?:\n|$))+",
+            block,
+            re.DOTALL,
+        )
         for match in action_matches:
             step = match.group(1)
             description = match.group(2)
             expected_result = match.group(3)
-            actions.append({'step': step, 'description': description.strip(), 'expected_result': expected_result.strip()})
-        
+            actions.append(
+                {
+                    "step": step,
+                    "description": description.strip(),
+                    "expected_result": expected_result.strip(),
+                }
+            )
+
         if actions:
-            test_case['actions'] = actions
+            test_case["actions"] = actions
 
         test_cases.append(test_case)
     print(test_cases)
     return test_cases
-
-
-
 
 
 def get_azure_response(input_text):
@@ -127,7 +141,7 @@ def get_developed_tests(previous_response: str) -> str:
         {"role": "assistant", "content": previous_response},
         {
             "role": "user",
-            "content": """ok, now based on the previous answer, develop each test case. Each test case must only have the following sections in the following order:
+            "content": """ok, now based on the previous answer, develop EACH test case. Each test case must only have the following sections in the following order:
 - A section named "test case" with a appropriately generated test case code.
 - A title section with a name for the current test case.
 - A description section with a short summary of what the test describes and what it tests.
@@ -187,3 +201,35 @@ def parse_test_cases(test_dict, test_cases_str):
 def clear_session():
     # Clear the session data
     session.pop("responsep", None)
+    session.pop("user_input", None)
+
+
+def get_remake_response(previous_response: str, user_input: str) -> str:
+    messages = [
+        {"role": "system", "content": systemmessage},
+        {
+            "role": "assistant",
+            "content": "Of course! Please provide me with the user story, and I'll generate possible test cases for both success and failure scenarios.",
+        },
+        {"role": "user", "content": user_input},
+        {"role": "assistant", "content": previous_response},
+        {
+            "role": "user",
+            "content": "I didn't like this list, please make another different one taking into the account the user story that i gave you.",
+        },
+    ]
+    completion = client.chat.completions.create(
+        model="gpt-4",
+        messages=messages,
+        temperature=0.8,
+        max_tokens=4096,
+        top_p=0.95,
+        frequency_penalty=0,
+        presence_penalty=0,
+        stop=None,
+    )
+    # Check if completion has choices and return the content of the first choice
+    if completion.choices:
+        return completion.choices[0].message.content
+    else:
+        return "Error: No response received from Azure AI"

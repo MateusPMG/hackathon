@@ -34,11 +34,6 @@ def response():
     return render_template("middle.html", responsep=responsep)
 
 
-@app.route("/testCases", methods=["POST"])
-def middleResponse():
-    pass
-
-
 @app.route("/final", methods=["POST"])
 def response_page():
     responsep = session.get("responsep")

@@ -1,23 +1,18 @@
-const form = document.getElementById("form");
+const myForm = document.getElementById("form");
+const reloadDiv = document.getElementById("reloadDiv");
 
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-  const formData = new FormData(form);
-  const data = Object.fromEntries(formData);
-  console.log(data);
-  // Send data to the server
-  fetch("/response", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Success:", data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+myForm.addEventListener("submit", function (event) {
+  console.log("Form submitted");
+  event.preventDefault();
+
+  // Show the "Page is Reloading" message
+  reloadDiv.classList.remove("hidden");
+
+  // Hide the form
+  myForm.style.display = "none";
+
+  // Submit the form after a short delay (200ms)
+  setTimeout(() => {
+    myForm.submit();
+  }, 200);
 });

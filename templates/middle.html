@@ -3,11 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Test Cases</title>
+    <title>Axians QA Assistant</title>
     <link rel="stylesheet" href="../static/css/middle.css" />
   </head>
   <body>
     <div class="container">
+      <div
+        id="reloadDiv"
+        aria-label="Orange and tan hamster running in a metal wheel"
+        role="img"
+        class="wheel-and-hamster hidden"
+      >
+        <div class="wheel"></div>
+        <div class="hamster">
+          <div class="hamster__body">
+            <div class="hamster__head">
+              <div class="hamster__ear"></div>
+              <div class="hamster__eye"></div>
+              <div class="hamster__nose"></div>
+            </div>
+            <div class="hamster__limb hamster__limb--fr"></div>
+            <div class="hamster__limb hamster__limb--fl"></div>
+            <div class="hamster__limb hamster__limb--br"></div>
+            <div class="hamster__limb hamster__limb--bl"></div>
+            <div class="hamster__tail"></div>
+          </div>
+        </div>
+        <div class="spoke"></div>
+      </div>
       <h2 id="success-title">Success Test Cases</h2>
       <table class="test-cases">
         <tr>
@@ -48,7 +71,7 @@
         {% endfor %}
       </table>
       <div id="myForm">
-        <form action="/accept" method="post">
+        <form id="accept-form" action="/accept" method="post">
           <button class="button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +91,7 @@
             <div class="text">Accept Test Cases</div>
           </button>
         </form>
-        <form action="/remake" method="post">
+        <form id="remake-form" action="/remake" method="get">
           <button class="button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +111,7 @@
             <div class="text">Remake Test Cases</div>
           </button>
         </form>
-        <form action="/clean" method="get">
+        <form id="exit-form" action="/clean" method="get">
           <button class="button-exit">
             <svg
               xmlns="http://www.w3.org/2000/svg"

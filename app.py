@@ -24,19 +24,15 @@ def index():
 @app.route("/response", methods=["POST"])
 def response():
     user_input = request.form["user_input"]
+    session["user_input"] = user_input
     response = get_azure_response(user_input)
+    session["responsep"] = response
     successT, failureT = parse_input(response)
     responsep = {"successT": successT, "failureT": failureT}
-    # session["responsep"] = {"successT": successT, "failureT": failureT}
     return render_template("middle.html", responsep=responsep)
 
 
-@app.route("/testCases", methods=["POST"])
-def middleResponse():
-    pass
-
-
-@app.rout("/response", methods=["POST"])
+@app.route("/final", methods=["POST"])
 def response_page():
     responsep = session.get("responsep")
     if responsep is None:
@@ -47,14 +43,24 @@ def response_page():
     return render_template("response.html", finald=final)
 
 
-@app.route("/accept", methods=["POST"])
-def accept():
-    return render_template("index.html")
+@app.route("/remake")
+def remake():
+    previous_response = session.get("responsep")
+    user_input = session.get("user_input")
+    if previous_response is None or user_input is None:
+        clear_session()
+        return render_template("index.html")
+    new_response = get_remake_response(previous_response, user_input)
+    successT, failureT = parse_input(new_response)
+    session["responsep"] = new_response
+    responsep = {"successT": successT, "failureT": failureT}
+    return render_template("middle.html", responsep=responsep)
 
 
 @app.route("/clean")
 def clean():
     # logica para limpiar la base de datos
+    clear_session()
     return render_template("index.html")
 
 

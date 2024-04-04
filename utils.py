@@ -60,7 +60,9 @@ def parse_response(response_text):
                 )
             elif current_test_case["actions"]:
                 # If not a new action, it's part of the expected result of the current action
-                current_test_case["actions"][-1]["expected_result"] += line.strip() + " "
+                current_test_case["actions"][-1]["expected_result"] += (
+                    line.strip() + " "
+                )
 
     # Remove the redundant "Expected Result:" string from the expected result
     for test_case in test_cases:
@@ -170,3 +172,35 @@ def parse_test_cases(test_dict, test_cases_str):
 def clear_session():
     # Clear the session data
     session.pop("responsep", None)
+    session.pop("user_input", None)
+
+
+def get_remake_response(previous_response: str, user_input: str) -> str:
+    messages = [
+        {"role": "system", "content": systemmessage},
+        {
+            "role": "assistant",
+            "content": "Of course! Please provide me with the user story, and I'll generate possible test cases for both success and failure scenarios.",
+        },
+        {"role": "user", "content": user_input},
+        {"role": "assistant", "content": previous_response},
+        {
+            "role": "user",
+            "content": "I didn't like this list, please make another different one taking into the account the user story that i gave you.",
+        },
+    ]
+    completion = client.chat.completions.create(
+        model="gpt-4",
+        messages=messages,
+        temperature=0.8,
+        max_tokens=4096,
+        top_p=0.95,
+        frequency_penalty=0,
+        presence_penalty=0,
+        stop=None,
+    )
+    # Check if completion has choices and return the content of the first choice
+    if completion.choices:
+        return completion.choices[0].message.content
+    else:
+        return "Error: No response received from Azure AI"

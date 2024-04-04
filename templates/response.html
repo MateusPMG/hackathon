@@ -19,62 +19,54 @@
       body {
         font-family: Arial, sans-serif;
         margin: 20px;
-        background-color: #f0f0f0;
+        background: url("../static/images/background.svg");
+        color: #fff;
       }
 
-      .response {
-        border: 1px solid #ccc;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
+      .button {
+        background-color: #ffffff00;
+        color: #fff;
+        width: 13.5em;
+        height: 3em;
+        border: #3654ff 0.2em solid;
+        border-radius: 11px;
+        text-align: right;
+        transition: all 0.6s ease;
       }
 
-      .response p,
-      .response li {
-        margin-bottom: 10px;
+      .button-exit {
+        background-color: #ffffff00;
+        color: #fff;
+        width: 15.5em;
+        height: 3em;
+        border: #3654ff 0.2em solid;
+        border-radius: 11px;
+        text-align: right;
+        transition: all 0.6s ease;
       }
 
-      .response strong {
-        font-weight: bold;
+      .button:hover,
+      .button-exit:hover {
+        background-color: #3654ff;
+        cursor: pointer;
       }
 
-      .section-title {
-        font-size: 18px;
-        margin-bottom: 10px;
-        color: #333; /* Dark gray color for section titles */
-      }
-
-      .section-content {
-        font-size: 16px;
-      }
-
-      .actions {
+      .button svg,
+      .button-exit svg {
+        width: 1.6em;
+        margin: -0.2em 0.8em 1em;
+        position: absolute;
         display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
+        transition: all 0.6s ease;
       }
 
-      .action {
-        flex: 0 0 calc(50% - 40px);
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        max-width: calc(50% - 20px); /* New property to limit the width */
+      .button:hover svg,
+      .button-exit:hover svg {
+        transform: translateX(5px);
       }
 
-      .action-title {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #333; /* Dark gray color for action titles */
-      }
-
-      .action-content {
-        font-size: 16px;
+      .text {
+        margin: 0 1.5em;
       }
     </style>
   </head>
@@ -114,6 +106,28 @@
     {% endif %}
     <button>Generate another test case</button>
     <button>Test case invalid</button> -->
-    <a href="/"><button>Go back to Home</button></a>
+    <br />
+    <br />
+    <br />
+    <a href="/">
+      <button class="button">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+          ></path>
+        </svg>
+
+        <div class="text">Go back to Home</div>
+      </button></a
+    >
   </body>
 </html>

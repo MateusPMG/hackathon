@@ -141,7 +141,7 @@ def get_developed_tests(previous_response: str) -> str:
         {"role": "assistant", "content": previous_response},
         {
             "role": "user",
-            "content": """ok, now based on the previous answer, develop each test case. Each test case must only have the following sections in the following order:
+            "content": """ok, now based on the previous answer, develop EACH test case. Each test case must only have the following sections in the following order:
 - A section named "test case" with a appropriately generated test case code.
 - A title section with a name for the current test case.
 - A description section with a short summary of what the test describes and what it tests.

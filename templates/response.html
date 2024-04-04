@@ -72,8 +72,8 @@
     </style>
 </head>
 <body>
-    {% if responses %}
-        {% for response in responses %}
+    {% if finald %}
+        {% for response in finald %}
             <div class="response">
                 <p class="section-title"><strong>Test Case:</strong></p>
                 <p class="section-content">{{ response.test_case }}</p>

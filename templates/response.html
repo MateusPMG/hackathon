@@ -77,6 +77,7 @@
         font-size: 16px;
       }
     </style>
+<<<<<<< HEAD
   </head>
   <body>
     {% if responses %} {% for response in responses %}
@@ -108,9 +109,45 @@
     </div>
     {% endfor %} {% else %}
     <p>No responses available.</p>
+=======
+</head>
+<body>
+	<div style="white-space: pre-wrap;">{{ finald }}</div>
+<!-- {% if finald %}
+        {% for response in finald %}
+            <div class="response">
+                <p class="section-title"><strong>Test Case:</strong></p>
+                <p class="section-content">{{ response.test_case }}</p>
+                <p class="section-title"><strong>Title:</strong></p>
+                <p class="section-content">{{ response.title }}</p>
+                <p class="section-title"><strong>Description:</strong></p>
+                <p class="section-content">{{ response.description }}</p>
+                <p class="section-title"><strong>Preconditions:</strong></p>
+                <p class="section-content">{{ response.preconditions }}</p>
+                <p class="section-title"><strong>Requirements:</strong></p>
+                <p class="section-content">{{ response.requirements }}</p>
+                <div class="actions">
+                    <div class="action">
+                        <p class="action-title">Actions:</p>
+                        {% for action in response.actions %}
+                            <p class="action-content">{{ action.description }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="action">
+                        <p class="action-title">Expected Results:</p>
+                        {% for action in response.actions %}
+                            <p class="action-content">{{ action.expected_result }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No responses available.</p>
+>>>>>>> master
     {% endif %}
     <button>Generate another test case</button>
-    <button>Test case invalid</button>
+    <button>Test case invalid</button> -->
     <a href="/"><button>Go back to Home</button></a>
   </body>
 </html>

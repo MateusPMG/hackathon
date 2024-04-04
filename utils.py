@@ -20,15 +20,39 @@ it must also follow these directives:
 
 """
 
+import re
+
+def trim_input(input_text):
+    # Split the input text into lines
+    lines = input_text.split('\n')
+
+    # Define a regex pattern to match '#', '*', and spaces at the beginning of each line
+    pattern = r'^[\s*#]+'
+
+    # Iterate through each line and apply the regex pattern to trim unwanted characters
+    trimmed_lines = [re.sub(pattern, '', line) for line in lines]
+
+    # Join the trimmed lines back together to form the modified input text
+    trimmed_input_text = '\n'.join(trimmed_lines)
+
+    return trimmed_input_text
+
+import re
+
+import re
 
 def parse_response(response_text):
-    print("Response Text:", response_text)  # Print the response text for debugging
-
     test_cases = []
-    current_test_case = None
+    print(response_text)
+    # Split response text into individual test case blocks
+    test_case_blocks = re.split(r'(?m)^(?:.*?Test Case:\s*|## Test Case:)\s*', response_text.strip())
+    for block in test_case_blocks:
+        if not block.strip():
+            continue
 
-    lines = response_text.split("\n")
+        test_case = {}
 
+<<<<<<< HEAD
     for line in lines:
         line = line.strip()
         if line.lower().startswith("test case"):
@@ -63,15 +87,48 @@ def parse_response(response_text):
                 current_test_case["actions"][-1]["expected_result"] += (
                     line.strip() + " "
                 )
+=======
+        # Extract test case ID
+        match_test_case = re.search(r'^[#\*]+\s*Test\s*Case\s*(\d+)', block)
+        if match_test_case:
+            test_case['test_case'] = match_test_case.group(1).strip()
+>>>>>>> master
 
-    # Remove the redundant "Expected Result:" string from the expected result
-    for test_case in test_cases:
-        for action in test_case["actions"]:
-            action["expected_result"] = (
-                action["expected_result"].replace("Expected Result:", "").strip()
-            )
+        # Extract test case details
+        match_title = re.search(r'[#\*]+\s*Title:\s*(.+?)\n', block)
+        if match_title:
+            test_case['title'] = match_title.group(1).strip()
 
+        match_description = re.search(r'(?:#+\s*)?Description\s*(?::|\*\*)\s*(.+)', block)
+        if match_description:
+            test_case['description'] = match_description.group(1).strip()
+
+        match_preconditions = re.search(r'\*\*Preconditions:\*\*\s*(.+)', block)
+        if match_preconditions:
+            test_case['preconditions'] = match_preconditions.group(1).strip()
+
+        match_requirements = re.search(r'\*\*Requirements:\*\*\s*(.+)', block)
+        if match_requirements:
+            test_case['requirements'] = match_requirements.group(1).strip()
+
+        # Extract actions
+        actions = []
+        action_matches = re.finditer(r'\*\*Actions:\s*\n((?:\d+|\*)\.\s*(?:.+?)\n\s*-\s*Expected Result:\s*(?:.+)(?:\n|$))+', block, re.DOTALL)
+        for match in action_matches:
+            step = match.group(1)
+            description = match.group(2)
+            expected_result = match.group(3)
+            actions.append({'step': step, 'description': description.strip(), 'expected_result': expected_result.strip()})
+        
+        if actions:
+            test_case['actions'] = actions
+
+        test_cases.append(test_case)
+    print(test_cases)
     return test_cases
+
+
+
 
 
 def get_azure_response(input_text):
@@ -101,14 +158,9 @@ def get_azure_response(input_text):
         return "Error: No response received from Azure AI"
 
 
-def get_developed_tests(previous_response: str, input_text: str) -> str:
+def get_developed_tests(previous_response: str) -> str:
     messages = [
         {"role": "system", "content": systemmessage},
-        {
-            "role": "assistant",
-            "content": "Of course! Please provide me with the user story, and I'll generate possible test cases for both success and failure scenarios.",
-        },
-        {"role": "user", "content": input_text},
         {"role": "assistant", "content": previous_response},
         {
             "role": "user",

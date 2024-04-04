@@ -29,7 +29,14 @@ def response():
     session["responsep"] = response
     successT, failureT = parse_input(response)
     responsep = {"successT": successT, "failureT": failureT}
+    session["responsep"] = response
+    session["listsplit"] = responsep
     return render_template("middle.html", responsep=responsep)
+
+
+@app.route("/testCases", methods=["POST"])
+def middleResponse():
+    pass
 
 
 @app.route("/final", methods=["POST"])
@@ -38,9 +45,10 @@ def response_page():
     if responsep is None:
         clear_session()
         return render_template("index.html")
+    testsall = get_developed_tests(responsep)
+    # final = parse_response(testsall)
 
-    final = parse_response()
-    return render_template("response.html", finald=final)
+    return render_template("response.html", finald=testsall)
 
 
 @app.route("/remake")
